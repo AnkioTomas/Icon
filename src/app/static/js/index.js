@@ -71,10 +71,20 @@ window.pageOnLoad = function () {
             });
     }
 
-    $('#imageInput').on('change', function () {
+    const fileInput = $('#imageInput')[0];
+    $(fileInput).on('change', function () {
         pick(this.files[0]);
+        // 清空后再次选同一文件才会触发 change
+        this.value = '';
     });
     $dropZone
+        .on('click', () => fileInput.click())
+        .on('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        })
         .on('dragover', (e) => {
             e.preventDefault();
             $dropZone.addClass('dragging');

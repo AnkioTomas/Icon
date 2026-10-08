@@ -27,6 +27,8 @@
     .drop-zone.dragging,
     .drop-zone:hover { background: rgb(var(--mdui-color-primary-container)); }
     .drop-zone img { max-width: 180px; max-height: 180px; }
+    /* 不用 display:none：部分 WebView 拒绝激活不可见的 file input */
+    .file-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
     .hint { opacity: .7; font-size: .8rem; }
     .preview-row { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-around; align-items: flex-end; }
     .preview-item { display: flex; flex-direction: column; align-items: center; gap: .5rem; font-size: .75rem; opacity: .85; }
@@ -42,22 +44,22 @@
 <div id="container" class="container">
     <div class="workshop">
         <div class="d-flex" style="flex-direction: column; gap: 1rem;">
-            <mdui-card variant="filled" class="hero">
+            <mdui-card class="hero">
                 <h1>一键生成全平台应用图标</h1>
                 <p>上传一张 1024×1024 的方形图片，自动生成 iOS、Android、macOS、watchOS 与 Web 所需的全部尺寸，打包下载后可直接导入工程。</p>
             </mdui-card>
 
-            <mdui-card variant="outlined">
-                <label class="drop-zone" id="dropZone">
-                    <input type="file" id="imageInput" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" hidden>
+            <mdui-card>
+                <input type="file" id="imageInput" class="file-input" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp">
+                <div class="drop-zone" id="dropZone" role="button" tabindex="0">
                     <img id="sourcePreview" alt="" hidden>
                     <mdui-icon name="cloud_upload" id="uploadIcon" style="font-size: 48px"></mdui-icon>
                     <span id="uploadText">点击或拖拽图片到这里</span>
                     <span class="hint">PNG / JPG / WebP，≤ 5MB，非正方形会居中裁剪</span>
-                </label>
+                </div>
             </mdui-card>
 
-            <mdui-card variant="outlined">
+            <mdui-card>
                 <div class="section-title">效果预览</div>
                 <div class="preview-row" id="previewRow">
                     <div class="preview-item"><div class="icon" data-kind="opaque" data-size="76" data-radius="22.5"></div>iOS</div>
@@ -69,7 +71,7 @@
             </mdui-card>
         </div>
 
-        <mdui-card variant="outlined">
+        <mdui-card>
             <div class="section-title">目标平台</div>
             <div class="chips" id="platformChips">
                 {foreach $platforms as $key => $platform}
