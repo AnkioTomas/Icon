@@ -1,0 +1,9 @@
+[submodule "src/nova/framework"]
+	path = src/nova/framework
+	url = https://github.com/NovaPHPOrg/nova-framework
+[submodule "src/app/static/framework"]
+	path = src/app/static/framework
+	url = https://github.com/NovaPHPOrgUI/framework
+[submodule "src/nova/plugin/workerman"]
+	path = src/nova/plugin/workerman
+	url = https://github.com/NovaPHPOrg/nova-workerman
