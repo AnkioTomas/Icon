@@ -30,20 +30,23 @@ class IconPackTest extends TestCase
         foreach ($ios['images'] as $entry) {
             $this->checkBool(isset($files['ios/AppIcon.appiconset/' . $entry['filename']]), true);
         }
-        $this->checkPng($files['ios/AppIcon.appiconset/icon-ipad-83.5@2x.png'], 167, false);
+        $this->checkPng($files['ios/AppIcon.appiconset/icon-83.5@2x.png'], 167, false);
+        $this->checkPng($files['ios/AppIcon.appiconset/icon-20-ipad.png'], 20, false);
+        $this->checkPng($files['ios/AppIcon.appiconset/icon-29@2x-ipad.png'], 58, false);
         // App Store 拒收带 alpha 的 1024 图标
-        $this->checkPng($files['ios/AppIcon.appiconset/icon-ios-marketing-1024@1x.png'], 1024, false);
-        $this->checkPng($files['macos/AppIcon.appiconset/icon-mac-512@2x.png'], 1024, true);
+        $this->checkPng($files['ios/AppIcon.appiconset/icon-1024.png'], 1024, false);
+        $this->checkPng($files['mac/AppIcon.appiconset/icon-512@2x.png'], 1024, true);
         $this->checkPng($files['android/mipmap-xxxhdpi/ic_launcher.png'], 192, true);
-        $this->checkPng($files['web/apple-touch-icon.png'], 180, false);
+        $this->checkPng($files['webapp/apple-touch-icon-180x180.png'], 180, false);
         $this->checkPng($files['custom/300x300.png'], 300, true);
 
-        $watch = json_decode($files['watchos/AppIcon.appiconset/Contents.json'], true);
+        $watch = json_decode($files['iwatch/AppIcon.appiconset/Contents.json'], true);
         $this->checkString($watch['images'][1]['size'], '27.5x27.5');
         $this->checkString($watch['images'][1]['subtype'], '42mm');
+        $this->checkString($watch['images'][1]['filename'], 'icon-27.5@2x.png');
 
         // 透明区在 iOS 图标上被背景色填充
-        $iosImg = imagecreatefromstring($files['ios/AppIcon.appiconset/icon-ios-marketing-1024@1x.png']);
+        $iosImg = imagecreatefromstring($files['ios/AppIcon.appiconset/icon-1024.png']);
         $this->checkInt(imagecolorat($iosImg, 10, 512) & 0xFFFFFF, 0x00FF00);
 
         // 50% 圆角 = 圆：角落全透明、中心不透明、边缘为半透明过渡
@@ -56,7 +59,7 @@ class IconPackTest extends TestCase
         }
         $this->checkBool(count(array_filter($alphas, fn ($a) => $a > 0 && $a < 127)) > 0, true);
 
-        $ico = $files['web/favicon.ico'];
+        $ico = $files['webapp/favicon.ico'];
         $head = unpack('vreserved/vtype/vcount', $ico);
         $this->checkInt($head['type'], 1);
         $this->checkInt($head['count'], 3);

@@ -23,15 +23,15 @@
 
 ```text
 icons.zip
-├── ios/AppIcon.appiconset/        # iPhone / iPad / App Store，18 张 + Contents.json
-├── macos/AppIcon.appiconset/      # 16~1024，10 张 + Contents.json
-├── watchos/AppIcon.appiconset/    # 各表盘尺寸 + Marketing，11 张 + Contents.json
+├── ios/AppIcon.appiconset/        # icon-{pt}[@{scale}x].png，iPhone / iPad / App Store + Contents.json
+├── mac/AppIcon.appiconset/        # icon-16.png ~ icon-512@2x.png + Contents.json
+├── iwatch/AppIcon.appiconset/     # 各表盘尺寸 + Marketing + Contents.json
 ├── android/
 │   ├── mipmap-{mdpi..xxxhdpi}/ic_launcher.png
 │   └── playstore-icon.png         # 512×512
-├── web/
+├── webapp/
 │   ├── favicon.ico / favicon-16x16.png / favicon-32x32.png
-│   ├── apple-touch-icon.png       # 180×180，不透明
+│   ├── apple-touch-icon-180x180.png  # 不透明
 │   ├── android-chrome-192x192.png / android-chrome-512x512.png
 │   └── site.webmanifest
 └── custom/                        # 自定义尺寸

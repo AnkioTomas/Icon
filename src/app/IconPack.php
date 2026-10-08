@@ -18,7 +18,8 @@ class IconPack
 
     /**
      * variant：plain 保留透明，opaque 铺满背景色且不带 alpha 通道（App Store 要求），rounded 按圆角裁透明。
-     * files 行：[路径, 像素, 可选 variant]；apple 行：[pt, scale, idiom, Contents.json 附加字段]。
+     * files 行：[路径, 像素, 可选 variant]；apple 行：[pt, scale, idiom, Contents.json 附加字段, 可选文件名]。
+     * 目录与文件名沿用 icon-workshop 的打包命名，默认 icon-{pt}[@{scale}x].png。
      */
     public const array PLATFORMS = [
         'ios' => [
@@ -30,8 +31,8 @@ class IconPack
                 [29, 2, 'iphone', []], [29, 3, 'iphone', []],
                 [40, 2, 'iphone', []], [40, 3, 'iphone', []],
                 [60, 2, 'iphone', []], [60, 3, 'iphone', []],
-                [20, 1, 'ipad', []], [20, 2, 'ipad', []],
-                [29, 1, 'ipad', []], [29, 2, 'ipad', []],
+                [20, 1, 'ipad', [], 'icon-20-ipad'], [20, 2, 'ipad', [], 'icon-20@2x-ipad'],
+                [29, 1, 'ipad', [], 'icon-29-ipad'], [29, 2, 'ipad', [], 'icon-29@2x-ipad'],
                 [40, 1, 'ipad', []], [40, 2, 'ipad', []],
                 [76, 1, 'ipad', []], [76, 2, 'ipad', []],
                 [83.5, 2, 'ipad', []],
@@ -51,7 +52,7 @@ class IconPack
             ],
             'apple' => [],
         ],
-        'macos' => [
+        'mac' => [
             'label' => 'macOS',
             'variant' => 'plain',
             'files' => [],
@@ -63,7 +64,7 @@ class IconPack
                 [512, 1, 'mac', []], [512, 2, 'mac', []],
             ],
         ],
-        'watchos' => [
+        'iwatch' => [
             'label' => 'watchOS',
             'variant' => 'opaque',
             'files' => [],
@@ -81,13 +82,13 @@ class IconPack
                 [1024, 1, 'watch-marketing', []],
             ],
         ],
-        'web' => [
+        'webapp' => [
             'label' => 'Web / PWA',
             'variant' => 'rounded',
             'files' => [
                 ['favicon-16x16.png', 16],
                 ['favicon-32x32.png', 32],
-                ['apple-touch-icon.png', 180, 'opaque'],
+                ['apple-touch-icon-180x180.png', 180, 'opaque'],
                 ['android-chrome-192x192.png', 192],
                 ['android-chrome-512x512.png', 512],
             ],
@@ -143,9 +144,9 @@ class IconPack
             $files += self::apple("$key/AppIcon.appiconset", $spec['apple'], fn (int $px) => $png($px, $spec['variant']));
         }
 
-        if (in_array('web', $platforms, true)) {
-            $files['web/favicon.ico'] = self::ico([16 => $png(16, 'rounded'), 32 => $png(32, 'rounded'), 48 => $png(48, 'rounded')]);
-            $files['web/site.webmanifest'] = json_encode([
+        if (in_array('webapp', $platforms, true)) {
+            $files['webapp/favicon.ico'] = self::ico([16 => $png(16, 'rounded'), 32 => $png(32, 'rounded'), 48 => $png(48, 'rounded')]);
+            $files['webapp/site.webmanifest'] = json_encode([
                 'icons' => [
                     ['src' => 'android-chrome-192x192.png', 'sizes' => '192x192', 'type' => 'image/png'],
                     ['src' => 'android-chrome-512x512.png', 'sizes' => '512x512', 'type' => 'image/png'],
@@ -238,7 +239,7 @@ class IconPack
     }
 
     /**
-     * @param  list<array{0: int|float, 1: int, 2: string, 3: array<string, string>}> $images
+     * @param  list<array{0: int|float, 1: int, 2: string, 3: array<string, string>, 4?: string}> $images
      * @param  callable(int): string $png
      * @return array<string, string>
      */
@@ -249,8 +250,9 @@ class IconPack
         }
         $files = [];
         $entries = [];
-        foreach ($images as [$pt, $scale, $idiom, $extra]) {
-            $name = "icon-$idiom-{$pt}@{$scale}x.png";
+        foreach ($images as $row) {
+            [$pt, $scale, $idiom, $extra] = $row;
+            $name = ($row[4] ?? "icon-$pt" . ($scale === 1 ? '' : "@{$scale}x")) . '.png';
             $files["$dir/$name"] = $png((int) round($pt * $scale));
             $entries[] = ['size' => "{$pt}x$pt", 'idiom' => $idiom, 'filename' => $name, 'scale' => "{$scale}x"] + $extra;
         }
