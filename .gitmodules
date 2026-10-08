@@ -7,3 +7,18 @@
 [submodule "src/nova/plugin/workerman"]
 	path = src/nova/plugin/workerman
 	url = https://github.com/NovaPHPOrg/nova-workerman
+[submodule "src/nova/plugin/tpl"]
+	path = src/nova/plugin/tpl
+	url = https://github.com/NovaPHPOrg/nova-tpl
+[submodule "src/nova/plugin/captcha"]
+	path = src/nova/plugin/captcha
+	url = https://github.com/NovaPHPOrg/nova-captcha
+[submodule "src/nova/plugin/cookie"]
+	path = src/nova/plugin/cookie
+	url = https://github.com/NovaPHPOrg/nova-cookie-session
+[submodule "src/app/static/components/captcha"]
+	path = src/app/static/components/captcha
+	url = https://github.com/NovaPHPOrgUI/captcha
+[submodule "src/nova/plugin/security"]
+	path = src/nova/plugin/security
+	url = https://github.com/NovaPHPOrg/nova-security

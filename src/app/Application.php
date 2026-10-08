@@ -13,17 +13,28 @@ declare(strict_types=1);
 namespace app;
 
 use nova\framework\App;
+use nova\framework\route\Route;
+use nova\plugin\security\NovaWaf;
 
-use const ROOT_PATH;
+use function nova\framework\route;
 
 class Application extends App
 {
 
     public function onFrameworkStart(): void
     {
+        // captcha 前端组件写死了 /login/captcha
+        Route::getInstance()
+            ->get('/', route('index', 'main', 'index'))
+            ->get('/login/captcha', route('index', 'main', 'captcha'))
+            ->post('/generate', route('index', 'main', 'generate'))
+            ->get('/download/{id}', route('index', 'main', 'download'));
 
+        NovaWaf::instance()
+            ->limit('/generate', 10)
+            ->limit('/login/captcha', 30);
     }
 
-    public const string SYSTEM_NAME =  "Nova App";
+    public const string SYSTEM_NAME =  "图标工场";
 
 }

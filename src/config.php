@@ -1,12 +1,26 @@
 <?php
-return [
-    'debug'=>true,//当前是否为调试模式
-    'timezone'=>'Asia/Shanghai',//时区
-    'default_route'=>true,//启用默认路由，nova默认根据url自动解析到AnyModule/AnyController/AnyMethod方法，如果设置为false，则需要手动配置路由
-    'domain'=>[
-        '0.0.0.0',//允许访问的域名
-    ],
-    'version'=>'1.0.0',//版本号
-    'ip' => "127.0.0.1",
-    'port' => 10211
-];
+return array (
+  'debug' => true,
+  'timezone' => 'Asia/Shanghai',
+  'default_route' => false,
+  'domain' => 
+  array (
+    0 => '0.0.0.0',
+  ),
+  'version' => '1.0.0',
+  'ip' => '127.0.0.1',
+  'port' => 10211,
+  'framework_start' => 
+  array (
+    0 => 'nova\\plugin\\tpl\\Handler',
+  ),
+  'waf' => 
+  array (
+    'useRule' => true,
+    'useRateLimit' => true,
+    'useFailedFlood' => true,
+    'rateLimit' => 5,
+    'basePenaltySeconds' => 600,
+    'failureThreshold' => 10,
+  ),
+);
