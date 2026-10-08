@@ -37,9 +37,7 @@
     .section-title:first-child { margin-top: 0; }
     .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
     .color-row { display: flex; align-items: center; gap: .75rem; }
-    .color-row input[type=color] { width: 48px; height: 40px; border: none; padding: 0; background: none; cursor: pointer; }
-    .footer { text-align: center; opacity: .6; font-size: .8rem; padding-bottom: 2rem; }
-</style>
+    .color-row input[type=color] { width: 48px; height: 40px; border: none; padding: 0; background: none; cursor: pointer; }</style>
 
 <div id="container" class="container">
     <div class="workshop">
@@ -94,10 +92,6 @@
 
             <mdui-button id="generateBtn" icon="download" full-width class="mt-3">生成并下载</mdui-button>
         </mdui-card>
-    </div>
-
-    <div class="footer">
-        仿照 <a href="https://github.com/zhanghuanchong/icon-workshop" target="_blank" rel="noopener">icon-workshop</a> 的功能，使用 MDUI 重新实现
     </div>
 
     <nova-captcha id="captcha"></nova-captcha>
